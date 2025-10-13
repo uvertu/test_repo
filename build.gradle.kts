@@ -17,22 +17,14 @@ repositories {
 val junitVersion = "5.12.1"
 
 checkstyle {
-    toolVersion = '10.12.4'
+    toolVersion = "10.12.4"
     configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
-    configDirectory = file("${rootDir}/config/checkstyle")
 }
 
-tasks.named('checkstyleMain').configure {
+tasks.withType<Checkstyle>().configureEach {
     reports {
-        xml.required = false
-        html.required = true
-    }
-}
-
-tasks.named('checkstyleTest').configure {
-    reports {
-        xml.required = false
-        html.required = true
+        xml.required.set(false)
+        html.required.set(true)
     }
 }
 
