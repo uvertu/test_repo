@@ -4,7 +4,7 @@ plugins {
     id("org.javamodularity.moduleplugin") version "1.8.15"
     id("org.openjfx.javafxplugin") version "0.0.13"
     id("org.beryx.jlink") version "2.25.0"
-    id 'checkstyle'
+    checkstyle
 }
 
 group = "com.beginsecure"
@@ -17,8 +17,9 @@ repositories {
 val junitVersion = "5.12.1"
 
 checkstyle {
-    toolVersion = '10.3.4'
-    configFile = file("config/checkstyle/checkstyle.xml")
+    toolVersion = '10.12.4'
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    configDirectory = file("${rootDir}/config/checkstyle")
 }
 
 tasks.named('checkstyleMain').configure {
