@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.beginsecure.hellofx.HelloController">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+
+    <Label fx:id="infoLabel" text="Угадай число от 1 до 100!"
+           style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <Label fx:id="rangeLabel" text="Интервал: 1-100"
+           style="-fx-font-size: 14px;"/>
+
+    <TextField fx:id="guessField" onAction="#onGuessAction"
+               prefWidth="150" prefHeight="35"
+    style="-fx-font-size: 14px;"/>
+
+    <Button onAction="#onGuessAction" text="Угадать!"
+            prefWidth="120" prefHeight="40"
+    style="-fx-font-size: 14px;"/>
+
+    <Label text="История попыток:"
+           style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+    <ListView fx:id="historyList" prefHeight="250" prefWidth="300"
+    style="-fx-font-size: 13px;"/>
+
+    <Button onAction="#onNewGame" text="Новая игра"
+            prefWidth="120" prefHeight="40"
+    style="-fx-font-size: 14px;"/>
+</VBox>
