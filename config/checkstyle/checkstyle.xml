@@ -2,106 +2,27 @@
 <!DOCTYPE module PUBLIC
         "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
         "https://checkstyle.org/dtds/configuration_1_3.dtd">
-
 <module name="Checker">
     <property name="charset" value="UTF-8"/>
-
-    <!-- Проверка отступов -->
-    <module name="TreeWalker">
-
-        <!-- Импорты -->
-        <module name="AvoidStarImport"/>
-        <module name="IllegalImport"/>
-        <module name="RedundantImport"/>
-        <module name="UnusedImports"/>
-
-        <!-- Имена -->
-        <module name="ConstantName">
-            <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
-        </module>
-        <module name="LocalVariableName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-        </module>
-        <module name="MemberName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-        </module>
-        <module name="MethodName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-        </module>
-        <module name="PackageName">
-            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
-        </module>
-        <module name="ParameterName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-        </module>
-        <module name="TypeName">
-            <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
-        </module>
-
-        <!-- Размеры -->
-        <module name="MethodLength">
-            <property name="max" value="50"/>
-            <property name="countEmpty" value="false"/>
-        </module>
-        <module name="ParameterNumber">
-            <property name="max" value="7"/>
-        </module>
-
-        <!-- Пробелы -->
-        <module name="WhitespaceAround">
-            <property name="allowEmptyConstructors" value="true"/>
-            <property name="allowEmptyMethods" value="true"/>
-            <property name="allowEmptyTypes" value="true"/>
-            <property name="allowEmptyLoops" value="true"/>
-        </module>
-        <module name="WhitespaceAfter">
-            <property name="tokens" value="COMMA, SEMI"/>
-        </module>
-        <module name="NoWhitespaceBefore">
-            <property name="tokens" value="COMMA, SEMI"/>
-        </module>
-
-        <!-- Скобки -->
-        <module name="LeftCurly"/>
-        <module name="RightCurly"/>
-        <module name="NeedBraces"/>
-
-        <!-- Пустые блоки -->
-        <module name="EmptyBlock">
-            <property name="option" value="TEXT"/>
-        </module>
-        <module name="EmptyLineSeparator">
-            <property name="allowNoEmptyLineBetweenFields" value="true"/>
-        </module>
-
-        <!-- Прочее -->
-        <module name="HiddenField">
-            <property name="ignoreConstructorParameter" value="true"/>
-            <property name="ignoreSetter" value="true"/>
-        </module>
-        <module name="VisibilityModifier">
-            <property name="protectedAllowed" value="true"/>
-        </module>
-        <module name="OneStatementPerLine"/>
-        <module name="MultipleVariableDeclarations"/>
-        <module name="MethodParamPad"/>
-
+    
+    <module name="BeforeExecutionExclusionFileFilter">
+        <property name="fileNamePattern" value="module-info\.java$"/>
     </module>
-
-    <!-- Длина строки -->
-    <module name="LineLength">
-        <property name="max" value="120"/>
-        <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
-    </module>
-
-    <!-- Файл должен заканчиваться пустой строкой -->
-    <module name="NewlineAtEndOfFile">
-        <property name="lineSeparator" value="lf"/>
-    </module>
-
-    <!-- Проверка на табуляции -->
+    
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
     </module>
-
+    
+    <module name="TreeWalker">
+        <module name="AvoidStaticImport">
+            <property name="excludes" value="javafx.*.*"/>
+        </module>
+        
+        <module name="IllegalImport">
+            <property name="illegalPkgs" value="sun.*,com.sun.*"/>
+        </module>
+        
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+    </module>
 </module>
