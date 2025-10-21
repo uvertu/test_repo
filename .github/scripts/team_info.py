@@ -8,14 +8,13 @@ from github import Github, Auth
 
 
 def get_team_info():
+    # Получаем токен из переменных окружения
     token = os.getenv('ORG_ACCESS_TOKEN')
-    repo_name = os.getenv('GITHUB_REPOSITORY')
-
-    token = os.getenv('GITHUB_TOKEN')
     if not token:
         print("❌ GITHUB_TOKEN не установлен")
         return
 
+    # Получаем информацию о репозитории из переменных окружения GitHub Actions
     repo_name = os.getenv('GITHUB_REPOSITORY')
     if not repo_name:
         print("❌ GITHUB_REPOSITORY не установлен")
@@ -30,6 +29,7 @@ def get_team_info():
         print(f"📊 Информация о команде для репозитория: {repo_name}")
         print("=" * 50)
 
+        # Получаем collaborators (участников с доступом к репозиторию)
         print("👥 Участники команды:")
         collaborators = repo.get_collaborators()
 
@@ -38,7 +38,7 @@ def get_team_info():
             print(f"   📧 Email: {collaborator.email or 'Не указан'}")
             print(f"   🔗 GitHub: {collaborator.html_url}")
 
-            orgs = collaborator.get_organizations()
+            # Получаем организации пользователя
             orgs = collaborator.get_orgs()
             org_names = [org.login for org in orgs]
             if org_names:
@@ -48,6 +48,7 @@ def get_team_info():
 
         print("\n" + "=" * 50)
 
+        # Получаем команды репозитория (если репозиторий принадлежит организации)
         try:
             teams = repo.get_teams()
             if teams.totalCount > 0:
@@ -56,6 +57,7 @@ def get_team_info():
                     print(f"\n   🏷️  Название команды: {team.name}")
                     print(f"   📝 Описание: {team.description or 'Нет описания'}")
 
+                    # Получаем участников команды
                     members = team.get_members()
                     member_names = [member.login for member in members]
                     if member_names:
@@ -63,11 +65,14 @@ def get_team_info():
                     else:
                         print(f"   👥 Участники команды: Нет участников")
             else:
-                print(
-                    "👨‍👩‍👧‍👦 Команды в репозитории: Нет команд (репозиторий принадлежит пользователю, а не организации)")
+                print("👨‍👩‍👧‍👦 Команды в репозитории: Нет команд")
 
         except Exception as team_error:
-            print(f"👨‍👩‍👧‍👦 Команды в репозитории: Не удалось получить информацию о командах - {team_error}")
+            if hasattr(team_error, 'status') and team_error.status == 403:
+                print(
+                    "👨‍👩‍👧‍👦 Команды в репозитории: Недостаточно прав для получения списка команд. Требуется токен с правами 'read:org'.")
+            else:
+                print(f"👨‍👩‍👧‍👦 Команды в репозитории: Не удалось получить информацию о командах - {team_error}")
 
         print("\n" + "=" * 50)
         print(f"✅ Всего участников: {collaborators.totalCount}")
