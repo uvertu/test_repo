@@ -4,7 +4,7 @@ Script для получения информации о участниках к
 """
 
 import os
-from github import Github
+from github import Github, Auth
 
 
 def get_team_info():
@@ -21,8 +21,9 @@ def get_team_info():
         return
 
     try:
-        # Создаем клиент GitHub
-        g = Github(token)
+        # Создаем клиент GitHub с правильной аутентификацией
+        auth = Auth.Token(token)
+        g = Github(auth=auth)
         repo = g.get_repo(repo_name)
 
         print(f"📊 Информация о команде для репозитория: {repo_name}")
@@ -45,11 +46,30 @@ def get_team_info():
             else:
                 print(f"   🏢 Организации: Не состоит в организациях")
 
-            # Получаем команды пользователя в этом репозитории
-            teams = collaborator.get_teams()
-            team_names = [team.name for team in teams if team.repo_id == repo.id]
-            if team_names:
-                print(f"   👨‍👩‍👧‍👦 Команды в репозитории: {', '.join(team_names)}")
+        print("\n" + "=" * 50)
+
+        # Получаем команды репозитория (если репозиторий принадлежит организации)
+        try:
+            teams = repo.get_teams()
+            if teams.totalCount > 0:
+                print("👨‍👩‍👧‍👦 Команды в репозитории:")
+                for team in teams:
+                    print(f"\n   🏷️  Название команды: {team.name}")
+                    print(f"   📝 Описание: {team.description or 'Нет описания'}")
+
+                    # Получаем участников команды
+                    members = team.get_members()
+                    member_names = [member.login for member in members]
+                    if member_names:
+                        print(f"   👥 Участники команды: {', '.join(member_names)}")
+                    else:
+                        print(f"   👥 Участники команды: Нет участников")
+            else:
+                print(
+                    "👨‍👩‍👧‍👦 Команды в репозитории: Нет команд (репозиторий принадлежит пользователю, а не организации)")
+
+        except Exception as team_error:
+            print(f"👨‍👩‍👧‍👦 Команды в репозитории: Не удалось получить информацию о командах - {team_error}")
 
         print("\n" + "=" * 50)
         print(f"✅ Всего участников: {collaborators.totalCount}")
