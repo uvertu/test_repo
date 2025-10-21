@@ -8,23 +8,18 @@ from github import Github, Auth
 
 
 def get_team_info():
-    # Получаем токен из переменных окружения
-<<<<<<< HEAD
     token = os.getenv('ORG_ACCESS_TOKEN')
     repo_name = os.getenv('GITHUB_REPOSITORY')
 
-=======
     token = os.getenv('GITHUB_TOKEN')
     if not token:
         print("❌ GITHUB_TOKEN не установлен")
         return
 
-    # Получаем информацию о репозитории из переменных окружения GitHub Actions
     repo_name = os.getenv('GITHUB_REPOSITORY')
     if not repo_name:
         print("❌ GITHUB_REPOSITORY не установлен")
         return
->>>>>>> d4c8ae54a94e70573b218019f3611895a4da6420
 
     try:
         # Создаем клиент GitHub с правильной аутентификацией
@@ -35,10 +30,6 @@ def get_team_info():
         print(f"📊 Информация о команде для репозитория: {repo_name}")
         print("=" * 50)
 
-<<<<<<< HEAD
-=======
-        # Получаем collaborators (участников с доступом к репозиторию)
->>>>>>> d4c8ae54a94e70573b218019f3611895a4da6420
         print("👥 Участники команды:")
         collaborators = repo.get_collaborators()
 
@@ -47,12 +38,8 @@ def get_team_info():
             print(f"   📧 Email: {collaborator.email or 'Не указан'}")
             print(f"   🔗 GitHub: {collaborator.html_url}")
 
-            # Получаем организации пользователя
-<<<<<<< HEAD
             orgs = collaborator.get_organizations()
-=======
             orgs = collaborator.get_orgs()
->>>>>>> d4c8ae54a94e70573b218019f3611895a4da6420
             org_names = [org.login for org in orgs]
             if org_names:
                 print(f"   🏢 Организации: {', '.join(org_names)}")
@@ -61,7 +48,6 @@ def get_team_info():
 
         print("\n" + "=" * 50)
 
-        # Получаем команды репозитория (если репозиторий принадлежит организации)
         try:
             teams = repo.get_teams()
             if teams.totalCount > 0:
@@ -70,7 +56,6 @@ def get_team_info():
                     print(f"\n   🏷️  Название команды: {team.name}")
                     print(f"   📝 Описание: {team.description or 'Нет описания'}")
 
-                    # Получаем участников команды
                     members = team.get_members()
                     member_names = [member.login for member in members]
                     if member_names:
