@@ -9,7 +9,7 @@ from github import Github, Auth
 
 def get_team_info():
     # Получаем токен из переменных окружения
-    token = os.getenv('ORG_ACCESS_TOKEN')
+    token = os.getenv('GITHUB_TOKEN')
     if not token:
         print("❌ GITHUB_TOKEN не установлен")
         return
