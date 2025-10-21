@@ -18,7 +18,7 @@ jobs:
 
       - name: Run team info script
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ORG_ACCESS_TOKEN }}
         run: python .github/scripts/team_info.py
 
   checkstyle:
